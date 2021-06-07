@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.catalina.infectious.mapper.DbtestDao">
+  <resultMap id="BaseResultMap" type="com.catalina.infectious.model.Dbtest">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="test_column" jdbcType="VARCHAR" property="testColumn" />
+  </resultMap>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.catalina.infectious.model.Dbtest" useGeneratedKeys="true">
+    insert into dbtest (test_column)
+    values (#{testColumn,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.catalina.infectious.model.Dbtest" useGeneratedKeys="true">
+    insert into dbtest
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="testColumn != null">
+        test_column,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="testColumn != null">
+        #{testColumn,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
