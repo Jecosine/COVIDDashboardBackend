@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/docker/infectious-0.0.1-SNAPSHOT.jar

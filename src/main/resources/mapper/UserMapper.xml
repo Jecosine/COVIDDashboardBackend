@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.catalina.infectious.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.catalina.infectious.model.User">
+            <id property="id" column="id" jdbcType="CHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="age" column="age" jdbcType="INTEGER"/>
+            <result property="subscribe" column="subscribe" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,age,
+        subscribe,password
+    </sql>
+
+    <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where  id = #{id,jdbcType=CHAR} 
+    </select>
+    <select id="getByIdAndPassword" parameterType="com.catalina.infectious.model.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where id = #{id,jdbcType=CHAR} and password = #{password,jdbcType=VARCHAR}
+
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete from user
+        where  id = #{id,jdbcType=CHAR} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.catalina.infectious.model.User" useGeneratedKeys="true">
+        insert into user
+        ( id,name,age
+        ,subscribe, password)
+        values (#{id,jdbcType=CHAR},#{name,jdbcType=VARCHAR},#{age,jdbcType=INTEGER}
+        ,#{subscribe,jdbcType=OTHER},#{password,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.catalina.infectious.model.User" useGeneratedKeys="true">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="name != null">name,</if>
+                <if test="age != null">age,</if>
+                <if test="subscribe != null">subscribe,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">id = #{id,jdbcType=CHAR},</if>
+                <if test="name != null">name = #{name,jdbcType=VARCHAR},</if>
+                <if test="age != null">age = #{age,jdbcType=INTEGER},</if>
+                <if test="subscribe != null">subscribe = #{subscribe,jdbcType=OTHER},</if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.catalina.infectious.model.User">
+        update user
+        <set>
+                <if test="name != null">
+                    name = #{name,jdbcType=VARCHAR},
+                </if>
+                <if test="age != null">
+                    age = #{age,jdbcType=INTEGER},
+                </if>
+                <if test="subscribe != null">
+                    subscribe = #{subscribe,jdbcType=OTHER},
+                </if>
+                <if test="password != null">
+                    password = #{password,jdbcType=VARCHAR},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=CHAR} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.catalina.infectious.model.User">
+        update user
+        set 
+            name =  #{name,jdbcType=VARCHAR},
+            age =  #{age,jdbcType=INTEGER},
+            subscribe =  #{subscribe,jdbcType=OTHER}
+        where   id = #{id,jdbcType=CHAR} 
+    </update>
+</mapper>
