@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.catalina.infectious.mapper.ChinaMapper">
+
+    <resultMap id="BaseResultMap" type="com.catalina.infectious.model.ChinaData">
+        <id property="sNo" column="s_no" jdbcType="INTEGER"/>
+        <result property="observationDate" column="observation_date" jdbcType="DATE"/>
+        <result property="provinceState" column="province_state" jdbcType="VARCHAR"/>
+        <result property="confirmed" column="confirmed" jdbcType="INTEGER"/>
+        <result property="deaths" column="deaths" jdbcType="INTEGER"/>
+        <result property="recovered" column="recovered" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        s_no, observation_date, province_state,
+        confirmed, deaths, recovered
+    </sql>
+
+    <select id="findByNo" parameterType="Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from china
+        where s_no = #{sNo,jdbcType=INTEGER}
+    </select>
+
+    <select id="findByDate" parameterType="java.sql.Date" resultMap="BaseResultMap">
+        select province_state, confirmed, deaths, recovered
+        from china
+        where observation_date = #{observationDate,jdbcType=DATE}
+    </select>
+</mapper>
